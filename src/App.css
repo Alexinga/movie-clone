@@ -5,6 +5,7 @@
 }
 body {
   overflow-x: hidden;
+  position: relative;
 }
 .header {
   background-color: black;
@@ -14,6 +15,12 @@ body {
   color: red;
 }
 .search {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.search input {
   padding: 0.3rem;
   border-radius: 30px;
 }
@@ -24,14 +31,8 @@ body {
   flex-wrap: wrap;
   color: white;
 }
-/* .icons {
-  display: flex;
-  cursor: pointer;
-  gap: 0.5rem;
-} */
 .movie-query-container {
   display: flex;
-  /* align-items: center; */
   background-color: rgb(87, 87, 87);
   padding: 2.5rem;
   gap: 1rem;
@@ -44,12 +45,10 @@ body {
   border-radius: 15px;
   width: 100%;
   min-height: 50vh;
-  /* height: 50vh; */
-  /* display: flex; */
-  /* align-items: flex-start; */
-  /* justify-content: flex-start; */
-  /* flex-direction: column; */
-  /* padding: 4rem 6rem; */
+}
+.scroll {
+  overflow-y: scroll;
+  height: 720px;
 }
 .query-grid {
   display: grid;
@@ -65,12 +64,101 @@ body {
 .query-year {
   grid-column: 2/3;
 }
-/* .selected-query {
+.select-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.select-details img {
+  width: 70%;
+}
+.btn-add {
+  color: white;
+  background-color: red;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  border: none;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+.btn {
+  color: white;
+  background-color: red;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  border: none;
+  /* margin-top: 1rem; */
+  cursor: pointer;
+}
+.trailer-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: black;
-  padding: 5rem;
-} */
+  opacity: 1;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.vid-size {
+  width: 500px;
+  height: 300px;
+}
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.loading {
+  border: #e3e3e3 solid 16px;
+  border-top: 16px solid red;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.title {
+  font-size: 1.5rem;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: red;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 @media (max-width: 768px) {
   .movie-query-container {
     flex-wrap: wrap;
+  }
+}
+@media (max-width: 535px) {
+  .vid-size {
+    width: 300px;
+    height: 150px;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 335px) {
+  .search input {
+    width: 50%;
   }
 }
