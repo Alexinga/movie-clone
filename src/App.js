@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
+import { useKey } from "./useKey";
 
 function App() {
   const tmdbKey = "911b6a817f9b16d823f757d5d61d9684";
@@ -12,6 +13,7 @@ function App() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
   function handleSelectMovie(id) {
     setSelectID((selectID) => (selectID === id ? null : id));
@@ -47,7 +49,7 @@ function App() {
   }
   async function getApi() {
     try {
-      setIsLoading(true);
+      setIsLoadingSearch(true);
       const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${tmdbKey}`
       );
@@ -55,7 +57,7 @@ function App() {
       const data = await res.json();
       const results = data.results;
       setMovie(results);
-      setIsLoading(false);
+      setIsLoadingSearch(false);
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -63,7 +65,9 @@ function App() {
     }
   }
   function handleSearchCall() {
+    if (query === "") return;
     getApi();
+    setQuery("");
   }
 
   // This was before I had to add a search button the getApi function was inside of the useEffect hook
@@ -97,12 +101,15 @@ function App() {
         removeMovieList={removeMovieList}
         isLoading={isLoading}
         errorMessage={error}
+        isLoadingSearch={isLoadingSearch}
       ></MovieContainer>
     </div>
   );
 }
 
 function MovieHeader({ setQuery, query, movie, onSearchCall }) {
+  const inputEl = useRef(null);
+  useKey("Enter", onSearchCall);
   return (
     <nav className="navbar">
       <h1 className="logo-color">Ai Movies</h1>
@@ -113,6 +120,7 @@ function MovieHeader({ setQuery, query, movie, onSearchCall }) {
           type="search"
           placeholder="search movie..."
           onChange={(e) => setQuery(e.target.value)}
+          ref={inputEl}
         ></input>
         <button onClick={onSearchCall} className="btn">
           search
@@ -140,12 +148,13 @@ function MovieContainer({
   removeMovieList,
   isLoading,
   errorMessage,
+  isLoadingSearch,
 }) {
   return (
     <section className="movie-query-container">
       <ul className="movie-container scroll">
-        {/* {isLoading && <Loading></Loading>}
-        {!isLoading &&
+        {isLoadingSearch && <Loading></Loading>}
+        {!isLoadingSearch &&
           !errorMessage &&
           movie?.map((mov) => (
             <QueryMovieBox
@@ -156,16 +165,7 @@ function MovieContainer({
               errorMessage={errorMessage}
             ></QueryMovieBox>
           ))}
-        {errorMessage && <ErrMessage></ErrMessage>} */}
-        {movie?.map((mov) => (
-          <QueryMovieBox
-            onSelectMovie={onSelectMovie}
-            mov={mov}
-            key={mov?.id}
-            isLoading={isLoading}
-            errorMessage={errorMessage}
-          ></QueryMovieBox>
-        ))}
+        {errorMessage && <ErrMessage></ErrMessage>}
       </ul>
       <div className="movie-container scroll">
         {isLoading && <Loading></Loading>}
@@ -208,11 +208,11 @@ function SelectedMovieBox({ selectID, closeSelected, addMovieList, addMovie }) {
   const [showTrailer, setShowTrailer] = useState(false);
   const imagePath = "https://image.tmdb.org/t/p/w500";
   const videoPath = "https://www.youtube.com/embed/";
-  const trailerPath = selectID?.videos.results;
-  const trailer = trailerPath.find(
+  const trailerPath = selectID?.videos?.results;
+  const trailer = trailerPath?.find(
     (vid) => vid.name === "Official Trailer"
   )?.key;
-  const checkTrailer = trailerPath.find(
+  const checkTrailer = trailerPath?.find(
     (vid) => vid.name === "Official Trailer"
   );
   // console.log(trailer);
