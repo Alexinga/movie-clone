@@ -1,1 +1,1 @@
-Moive Clone Project using React. Js and Vanilla CSS. This project uses React Hooks like UseState, & UseEffect. Api being used is the movie db.
+Moive Clone Project using React. Js and Vanilla CSS. This project uses React Hooks like UseState, & UseEffect. Api being used is the movie db. I also created a seprate file called useKey to use "enter" key for search capabilities 
