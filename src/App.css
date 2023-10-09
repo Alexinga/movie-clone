@@ -162,3 +162,14 @@ body {
     width: 50%;
   }
 }
+@media (max-width: 425px) {
+  .select-details {
+    grid-template-columns: 1fr;
+  }
+  .query-grid {
+    padding: 0.5rem;
+  }
+  .query-grid img {
+    width: 15vw;
+  }
+}

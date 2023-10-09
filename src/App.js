@@ -195,8 +195,8 @@ function QueryMovieBox({ mov, onSelectMovie, isLoading, errorMessage }) {
       {mov.poster_path ? (
         <img src={`${imagePath}${mov.poster_path}`} alt={mov.title}></img>
       ) : null}
-      <h2 className="title">{mov.title}</h2>
       <div className="query-year">
+        <h2 className="title">{mov.title}</h2>
         <span>📅</span>
         <span>{mov.release_date}</span>
       </div>
@@ -253,7 +253,7 @@ function SelectedMovieBox({ selectID, closeSelected, addMovieList, addMovie }) {
             Tagline: <span style={{ color: "red" }}>{selectID.tagline}</span>
           </h4>
           <p>{selectID.overview}</p>
-          <div style={{ display: "flex", gap: "0.8rem" }}>
+          <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
             {!duplicateMovie ? (
               <button
                 className="btn-add"
